@@ -3,11 +3,15 @@
 
 int main(int ac, char **av)
 {
+	t_fractol  fractol;
+
 	if((2 == ac && !ft_strncmp(av[1], "mandelbrot", 10))
 	|| (4 == ac && !ft_strncmp(av[1], "julia", 5)))
 	{
-		window();
-
+		fractol.name = av[1];
+		fractol_init(&fractol);
+		//fractol_render(&fractol);
+		mlx_loop(fractol.mlx_connection); 
 	}
 	else
 	{
