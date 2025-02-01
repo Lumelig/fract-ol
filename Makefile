@@ -1,6 +1,6 @@
 NAME = fractol
 
-SRCS = main.c window.c init.c render.c
+SRCS = main.c window.c init.c render.c math_utils.c
 
 OBJECTS = $(SRCS:%.c=%.o)
 HEADER = fractol.h
@@ -18,7 +18,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 # Combine library paths and link flags
 LIBS = -ldl -lglfw -pthread -lm
 LIB_DIRS = -L$(MLX_DIR)/build -L$(LIBFT_DIR)
-INCLUDES = -I$(MLX_DIR) -I$(LIBFT_DIR)/includes
+INCLUDES = -I$(MLX_DIR)/includes/MLX42 -I$(LIBFT_DIR)/libft
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -Wunreachable-code

@@ -5,28 +5,30 @@ static void	malloc_error()
 	perror("Problem with malloc");
 	exit(EXIT_FAILURE);
 }
+void	data_init(t_fractol  *fratol)
+{
+	fratol->escape_value  =  4;
+	fratol->iterations = 42;
+}
 
 void	fractol_init(t_fractol *fractol)
 {
-	fractol->mlx_connection;
-	if(NULL == fractol->mlx_connection)
+	fractol->mlx = mlx_init(WHITE, HIGHT, fractol->name, true);
+	if(NULL == fractol->mlx)
 		malloc_error();
-	fractol->mlx_window = mlx_new_window(fractol->mlx_connection, WIDTH, HIGHT, fractol->name);
-	if (NULL == fractol->mlx_window)
-	{
-		mlx_destroy_display(fractol->mlx_connection);
-		free(fractol->mlx_connection);
-		malloc_error();
-	}
-	fractol->img.img_ptr = mlx_new_image(fractol->mlx_connection, WIDTH, HIGHT);
+	
+	fractol->img = mlx_new_image(fractol->mlx, WIDTH, HIGHT);
 
-	if(NULL == fractol->img.img_ptr)
+	if(NULL == fractol->img)
 	{
-		mlx_destroy_window(fractol->mlx_connection, fractol->mlx_window);
-		mlx_destroy_display(fractol->mlx_connection);
-		free(fractol->mlx_connection);
+		mlx_terminate(fractol->mlx);
 		malloc_error();
 	}
-	fractol->img.pixel_ptr = mlx_get_data_addr(fractol->img.img_ptr, &fractol->img.bpp, &fractol->img.line_len, &fractol->img.endian);
+	if(mlx_image_to_window(fractol->mlx, fractol->img, 0, 0) < 0)
+	{
+		mlx_delete_image(fractol->mlx, fractol->img);
+		mlx_terminate(fractol->mlx);
+		malloc_error();
+	}
 
 }
