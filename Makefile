@@ -1,6 +1,6 @@
 NAME = fractol
 
-SRCS = main.c window.c init.c render.c math_utils.c evants.c
+SRCS = main.c init.c render.c math_utils.c events.c
 
 OBJECTS = $(SRCS:%.c=%.o)
 HEADER = fractol.h
