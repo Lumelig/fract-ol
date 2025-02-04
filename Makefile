@@ -1,6 +1,6 @@
 NAME = fractol
 
-SRCS = main.c window.c init.c render.c math_utils.c
+SRCS = main.c window.c init.c render.c math_utils.c evants.c
 
 OBJECTS = $(SRCS:%.c=%.o)
 HEADER = fractol.h
@@ -49,7 +49,7 @@ clean:
 fclean: clean
 	rm -f ${NAME}
 	@make -C $(LIBFT_DIR) fclean
-	rm -rf $(MLX_DIR)
+	rm -rf $(MLX_DIR) $(LIBFT_DIR)
 
 re: fclean all
 

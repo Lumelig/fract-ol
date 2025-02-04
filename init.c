@@ -5,18 +5,28 @@ static void	malloc_error()
 	perror("Problem with malloc");
 	exit(EXIT_FAILURE);
 }
-void	data_init(t_fractol  *fratol)
+void	data_init(t_fractol  *fractol)
 {
-	fratol->escape_value  =  4;
-	fratol->iterations = 42;
+	if (!fractol) // NULL check
+	{
+		fprintf(stderr, "Error: fractol structure is NULL\n");
+		exit(EXIT_FAILURE);
+	}
+	fractol->escape_value  =  4;
+	fractol->iterations = 42;
+}
+static void events_init(t_fractol *fractol)
+{
+	mlx_key_hook(fractol->mlx, &esc_key, fractol->mlx);
 }
 
 void	fractol_init(t_fractol *fractol)
 {
-	fractol->mlx = mlx_init(WHITE, HIGHT, fractol->name, true);
+	fractol->mlx = mlx_init(WIDTH, HIGHT, fractol->name, false);
 	if(NULL == fractol->mlx)
 		malloc_error();
-	
+
+
 	fractol->img = mlx_new_image(fractol->mlx, WIDTH, HIGHT);
 
 	if(NULL == fractol->img)
@@ -30,5 +40,5 @@ void	fractol_init(t_fractol *fractol)
 		mlx_terminate(fractol->mlx);
 		malloc_error();
 	}
-
+	events_init(fractol);
 }

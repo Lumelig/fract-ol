@@ -15,7 +15,7 @@ void	color_image(mlx_image_t *img)
 	x = 0;
 	y = 0;
 
-	color = create_color(255, 205, 55, 50);
+	color = create_color(255, 0,5,50);
 
 	while (y < img->height)
 	{

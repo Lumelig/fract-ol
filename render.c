@@ -1,19 +1,26 @@
 #include "fractol.h"
 
-// static  void	my_pixel_put(int x, int y, t_img *img, int color)
-// {
-// 	int	offset;
+static uint32_t get_color(int i, int max_iterations)
+{
+	if (i == max_iterations)
+        return (WHITE); 
+    double t = (double)i / max_iterations;
 
-// 	offset = (y * img->line_len) + (x * (img->bpp / 8));
-// 	*(unsigned  int *)(img->pixel_ptr + offset) = color;
-// }
+    uint8_t r = (uint8_t)(9 * (1 - t) * t * t * t * 255);
+    uint8_t g = (uint8_t)(15 * (1 - t) * (1 - t) * t * t * 255);
+    uint8_t b = (uint8_t)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
+
+    
+    return (255 << 24 | r << 16 | g << 8 | b);
+}
+
 
 static void	handel_pixel(int x, int y, t_fractol *fractol)
 {
 	t_complex	z;
 	t_complex	c;
 	int			i;
-	int			color;
+	uint32_t	color;
 
 	i = 0;
 	z.x = 0.0;
@@ -27,13 +34,13 @@ static void	handel_pixel(int x, int y, t_fractol *fractol)
 		z = sum_complex(square_complex(z), c);
 		if((z.x * z.x) + (z.y * z.y) > fractol->escape_value)
 		{
-			color = map_scale(i, BLACK, WHITE, fractol->iterations);
+			color = get_color(i, fractol->iterations);
 			mlx_put_pixel(fractol->img, x, y, color);
 			return ;
 		}
 		i++;
 	}
-	mlx_put_pixel(fractol->img, x, y, PSYCHEDELIC_PURPLE);
+	mlx_put_pixel(fractol->img, x, y, WHITE);
 }
 
 void	fractol_render(t_fractol *fractol)
@@ -51,5 +58,4 @@ void	fractol_render(t_fractol *fractol)
 		}
 		
 	}
-	mlx_image_to_window(fractol->mlx,fractol->img, 0, 0);
 }
