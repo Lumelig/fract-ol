@@ -26,8 +26,8 @@ static void	handel_pixel(int x, int y, t_fractol *fractol)
 	z.x = 0.0;
 	z.y = 0.0;
 
-	c.x = map_scale(x, -2, +2, WIDTH);
-	c.y = map_scale(y, +2, -2, HIGHT);
+	c.x = (map_scale(x, -2, +2, WIDTH) * fractol->zoom) + fractol->shift_x;
+	c.y = (map_scale(y, +2, -2, HIGHT) * fractol->zoom) + fractol->shift_y;
 
 	while (i < fractol->iterations)
 	{

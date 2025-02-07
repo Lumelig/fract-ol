@@ -12,13 +12,16 @@ void	data_init(t_fractol  *fractol)
 		fprintf(stderr, "Error: fractol structure is NULL\n");
 		exit(EXIT_FAILURE);
 	}
+	fractol->shift_x = 0.0;
+	fractol->shift_y = 0.0;
+	fractol->zoom = 1.0;
 	fractol->escape_value  =  4;
 	fractol->iterations = 42;
 }
 static void events_init(t_fractol *fractol)
 {
-	mlx_key_hook(fractol->mlx, &key_handler, fractol->mlx);
-	mlx_scroll_hook(fractol->mlx, &scroll_handler, fractol->mlx);
+	mlx_key_hook(fractol->mlx, &key_handler, fractol);
+	mlx_scroll_hook(fractol->mlx, &scroll_handler, fractol);
 }
 
 void	fractol_init(t_fractol *fractol)

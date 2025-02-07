@@ -41,6 +41,9 @@ typedef struct s_fractol
 	mlx_image_t *img;
 	double	escape_value;
 	int		iterations;
+	double	shift_x;
+	double	shift_y;
+	double	zoom;
 }			t_fractol;
 
 void	data_init(t_fractol  *fractol);
@@ -58,6 +61,8 @@ void	key_handler(mlx_key_data_t keydata, void *param);
 void	fractol_render(t_fractol *fractol);
 
 void scroll_handler(double xdelta, double ydelta, void *param);
+
+void    clean_exit(t_fractol *fractol);
 
 int	window(void);
 
