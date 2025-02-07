@@ -53,9 +53,11 @@ t_complex	square_complex(t_complex z);
 
 t_complex sum_complex(t_complex z1, t_complex z2);
 
-void	esc_key(mlx_key_data_t keydata, void *param);
+void	key_handler(mlx_key_data_t keydata, void *param);
 
 void	fractol_render(t_fractol *fractol);
+
+void scroll_handler(double xdelta, double ydelta, void *param);
 
 int	window(void);
 

@@ -17,7 +17,8 @@ void	data_init(t_fractol  *fractol)
 }
 static void events_init(t_fractol *fractol)
 {
-	mlx_key_hook(fractol->mlx, &esc_key, fractol->mlx);
+	mlx_key_hook(fractol->mlx, &key_handler, fractol->mlx);
+	mlx_scroll_hook(fractol->mlx, &scroll_handler, fractol->mlx);
 }
 
 void	fractol_init(t_fractol *fractol)
