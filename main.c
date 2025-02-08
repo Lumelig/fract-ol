@@ -14,9 +14,8 @@ int main(int ac, char **av)
 	{
 		//window name
 		fractol.name = av[1];
-		  // Sets up initial values:
-    	// escape_value = 4 (determines when a point escapes the set)
-    	// iterations = 42 (how many times to iterate each point)
+		fractol.julia_x = atodbl(av[2]);
+		fractol.julia_y = atodbl(av[3]);
 		data_init(&fractol);
 		 // Creates MLX window and image:
     	// - Initializes MLX with window size

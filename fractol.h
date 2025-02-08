@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "mlx/include/MLX42/MLX42.h"
+#include "libft/libft.h"
 
 #define ERROR_MESSAGE "Please enter \n\t\"./fractol mandelbrot\" or \n\t\"./fractol julia <value_1> <value_2>\""
 
@@ -44,6 +45,8 @@ typedef struct s_fractol
 	double	shift_x;
 	double	shift_y;
 	double	zoom;
+	double	julia_x;
+	double	julia_y;
 }			t_fractol;
 
 void	data_init(t_fractol  *fractol);
@@ -63,6 +66,8 @@ void	fractol_render(t_fractol *fractol);
 void scroll_handler(double xdelta, double ydelta, void *param);
 
 void    clean_exit(t_fractol *fractol);
+
+double atodbl (char *s);
 
 int	window(void);
 

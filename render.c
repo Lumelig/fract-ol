@@ -13,7 +13,19 @@ static uint32_t get_color(int i, int max_iterations)
     
     return (255 << 24 | r << 16 | g << 8 | b);
 }
-
+static	void mandel_vs_julia(t_complex *z, t_complex *c, t_fractol *fractol)
+{
+	if(!ft_strncmp(fractol->name, "julia", 5))
+	{
+		c->x = fractol->julia_x;
+		c->y = fractol->julia_y;
+	}
+	else
+	{
+		c->x = z->x;
+		c->y = z->y;
+	}
+}
 
 static void	handel_pixel(int x, int y, t_fractol *fractol)
 {
@@ -23,12 +35,12 @@ static void	handel_pixel(int x, int y, t_fractol *fractol)
 	uint32_t	color;
 
 	i = 0;
-	z.x = 0.0;
-	z.y = 0.0;
+	
 
-	c.x = (map_scale(x, -2, +2, WIDTH) * fractol->zoom) + fractol->shift_x;
-	c.y = (map_scale(y, +2, -2, HIGHT) * fractol->zoom) + fractol->shift_y;
+	z.x = (map_scale(x, -2, +2, WIDTH) * fractol->zoom) + fractol->shift_x;
+	z.y = (map_scale(y, +2, -2, HIGHT) * fractol->zoom) + fractol->shift_y;
 
+	mandel_vs_julia(&z, &c, fractol);
 	while (i < fractol->iterations)
 	{
 		z = sum_complex(square_complex(z), c);
