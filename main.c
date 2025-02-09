@@ -1,6 +1,15 @@
 #include "fractol.h"
 #include "libft/libft.h"
 
+void close_hook(void *param)
+{
+    t_fractol *fractol;
+
+    fractol = (t_fractol *)param;
+    clean_exit(fractol);
+    exit(0);
+}
+
 int main(int ac, char **av)
 {
 	t_fractol  fractol;
@@ -14,8 +23,16 @@ int main(int ac, char **av)
 	{
 		//window name
 		fractol.name = av[1];
+		if (4 == ac)
+		{
 		fractol.julia_x = atodbl(av[2]);
 		fractol.julia_y = atodbl(av[3]);
+		}
+		else
+		{
+			fractol.julia_x = 0.0;
+			fractol.julia_y = 0.0;
+		}
 		data_init(&fractol);
 		 // Creates MLX window and image:
     	// - Initializes MLX with window size
@@ -27,11 +44,16 @@ int main(int ac, char **av)
     	// Applies fractal formula (z = z² + c)
     	// Colors pixel based on how quickly point escapes
 		fractol_render(&fractol);
-		mlx_loop(fractol.mlx); 
+		mlx_close_hook(fractol.mlx, &close_hook, &fractol);
+		mlx_loop(fractol.mlx);
+		if (fractol.img)
+			mlx_delete_image(fractol.mlx, fractol.img);
+		mlx_terminate(fractol.mlx);
 	}
 	else
 	{
 		ft_putstr_fd(ERROR_MESSAGE, STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
+	return (0);
 }

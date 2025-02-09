@@ -1,15 +1,17 @@
 #include "fractol.h"
 
-void    clean_exit(t_fractol *fractol)
+void clean_exit(t_fractol *fractol)
 {
     if (fractol->img)
+    {
         mlx_delete_image(fractol->mlx, fractol->img);
+        fractol->img = NULL;
+    }
     if (fractol->mlx)
+    {
         mlx_terminate(fractol->mlx);
-    if (fractol)
-        free(fractol);
-        
-    exit(0);
+        fractol->mlx = NULL;
+    }
 }
 
 void    key_handler(mlx_key_data_t keydata, void *param)
@@ -20,11 +22,14 @@ void    key_handler(mlx_key_data_t keydata, void *param)
     if (keydata.action == MLX_PRESS)
     {
         if (keydata.key == MLX_KEY_ESCAPE)
+		{
     		clean_exit(fractol);
+			exit (0);
+		}
         else if (keydata.key == MLX_KEY_UP)
-            fractol->shift_y -= (0.5 * fractol->zoom);
-        else if (keydata.key == MLX_KEY_DOWN)
             fractol->shift_y += (0.5 * fractol->zoom);
+        else if (keydata.key == MLX_KEY_DOWN)
+            fractol->shift_y -= (0.5 * fractol->zoom);
         else if (keydata.key == MLX_KEY_LEFT)
             fractol->shift_x -= (0.5 * fractol->zoom);
         else if (keydata.key == MLX_KEY_RIGHT)
@@ -39,28 +44,26 @@ void    key_handler(mlx_key_data_t keydata, void *param)
 void scroll_handler(double xdelta, double ydelta, void *param)
 {
     t_fractol *fractol;
+    int32_t mouse_x;
+    int32_t mouse_y;
+    double zoom_factor;
+    double mouse_re;
+    double mouse_im;
     
     fractol = (t_fractol *)param;
-    if (ydelta > 0)
-    {
-        fractol->zoom *= 0.95;
-        printf("Scrolling up: %f\n", ydelta);
-    }
-    else if (ydelta < 0)
-    {
-        fractol->zoom *= 1.05;
-        printf("Scrolling down: %f\n", ydelta);
-    }
+    mlx_get_mouse_pos(fractol->mlx, &mouse_x, &mouse_y);
+    mouse_re = (map_scale(mouse_x, -2, +2, WIDTH) * fractol->zoom) + fractol->shift_x;
+    mouse_im = (map_scale(mouse_y, +2, -2, HIGHT) * fractol->zoom) + fractol->shift_y;
+
+    if (ydelta > 0 || xdelta > 0)
+        zoom_factor = 0.95;
+    else
+        zoom_factor = 1.05;
+    fractol->zoom *= zoom_factor;
     
-    if (xdelta > 0)
-    {
-        fractol->zoom *= 0.95;
-        printf("Scrolling right: %f\n", xdelta);
-    }
-    else if (xdelta < 0)
-    {
-        fractol->zoom *= 1.05;
-        printf("Scrolling left: %f\n", xdelta);
-    }
-	fractol_render(fractol);
+
+    fractol->shift_x = mouse_re - (mouse_re - fractol->shift_x) * zoom_factor;
+    fractol->shift_y = mouse_im - (mouse_im - fractol->shift_y) * zoom_factor;
+    
+    fractol_render(fractol);
 }

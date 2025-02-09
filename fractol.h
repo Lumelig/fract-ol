@@ -9,8 +9,8 @@
 
 #define ERROR_MESSAGE "Please enter \n\t\"./fractol mandelbrot\" or \n\t\"./fractol julia <value_1> <value_2>\""
 
-#define WIDTH 800
-#define HIGHT 600
+#define WIDTH 1000
+#define HIGHT 800
 
 #define BLACK 0x000000 // RGB(0, 0, 0 )
 #define WHITE 0xFFFFFF // RGB(255, 255, 255)
@@ -55,10 +55,6 @@ void	fractol_init(t_fractol *fractol);
 //This is a linear mapping (scaling) function that transforms a value from one range to another
 double map_scale(double unscaled_num, double new_min, double new_max, double old_max);
 
-t_complex	square_complex(t_complex z);
-
-t_complex sum_complex(t_complex z1, t_complex z2);
-
 void	key_handler(mlx_key_data_t keydata, void *param);
 
 void	fractol_render(t_fractol *fractol);
@@ -68,6 +64,8 @@ void scroll_handler(double xdelta, double ydelta, void *param);
 void    clean_exit(t_fractol *fractol);
 
 double atodbl (char *s);
+
+void close_hook(void *param);
 
 int	window(void);
 

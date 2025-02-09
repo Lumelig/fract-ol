@@ -26,7 +26,7 @@ static void events_init(t_fractol *fractol)
 
 void	fractol_init(t_fractol *fractol)
 {
-	fractol->mlx = mlx_init(WIDTH, HIGHT, fractol->name, false);
+	fractol->mlx = mlx_init(WIDTH, HIGHT, fractol->name, true);
 	if(NULL == fractol->mlx)
 		malloc_error();
 
